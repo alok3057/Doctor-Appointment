@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Appointment</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header Banner -->
+  <header>
+    Ujjibon Clinick
+  </header>
+
+  <div class="container">
+    <!---<form class="appointment-form" onsubmit="generateRefNo()"---->
+	<form autocomplete="off" method="POST" name="google-sheet">
+      <h2>Book an Appointment</h2>
+
+      <div class="form-group">
+        <label for="refNo">Reference No</label>
+        <input type="text" id="refNo" name="refNo" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="patientName">Your Name</label>
+        <input type="text" id="patientName" name="patientName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile No</label>
+        <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="2" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="doctor">Select Doctor</label>
+        <select id="doctor" name="doctor" required>
+          <option value="">-- Choose Doctor --</option>
+          <option value="dr_smith">Dr. John Smith</option>
+          <option value="dr_williams">Dr. Emily Williams</option>
+          <option value="dr_kumar">Dr. Arjun Kumar</option>
+          <option value="dr_lee">Dr. Sarah Lee</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Appointment Date</label>
+        <input type="date" id="date" name="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="time">Appointment Time</label>
+        <input type="time" id="time" name="time" required />
+      </div>
+
+      <div class="form-group">
+        <label for="remarks">Remarks</label>
+        <textarea id="remarks" name="remarks" rows="2"></textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Book Appointment" />
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function generateRefNo() {
+      const refField = document.getElementById("refNo");
+      const randomRef = "REF" + Math.floor(100000 + Math.random() * 900000);
+      refField.value = randomRef;
+    }
+
+    window.onload = generateRefNo;
+	
+	 const scriptURL = 'https://script.google.com/macros/s/AKfycby12disGTyQl2m8uZm0k2Ix9cDrFlvC6CxYXZUqYBqztYIDM6mloijzVVPs7ERF3WlM4w/exec'
+            const form = document.forms['google-sheet']
+          
+            form.addEventListener('submit', e => {
+              e.preventDefault()
+              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => alert("Thanks for Contacting us..! Your Booking Confermed and Bookin No ..."))
+                .catch(error => console.error('Error!', error.message))
+            })
+  </script>
+</body>
+</html>
